@@ -40,7 +40,7 @@ public class UsuarioController {
         return ResponseEntity.ok().body(service.listarUsuariosPorNome(nome));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<UsuarioResponse>> buscarTodosUsuarios(){
         return ResponseEntity.ok().body(service.listarUsuarios());
     }

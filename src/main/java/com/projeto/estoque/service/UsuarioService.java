@@ -31,6 +31,15 @@ public class UsuarioService {
         UsuarioEntity entity = repository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
+        // Verifica e alteração é no email
+        if (request.email() != null) {
+            // Verifica se email já está cadastrado
+            boolean emailExitente = repository.existsByEmail(request.email());
+            if (emailExitente) {
+                throw new RuntimeException("Esse email já está cadastrado");
+            }
+        }
+
         // Mescla a request com a entity antiga
         mapper.atualizarUsuarioEntity(request, entity);
 

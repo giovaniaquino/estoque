@@ -16,4 +16,6 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
 
     // Mostra todos usuario que contem nome
     List<UsuarioEntity> findByNomeContaining(String nome);
+
+    boolean existsByEmail(String email);
 }
