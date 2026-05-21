@@ -7,6 +7,8 @@ import com.projeto.estoque.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -26,5 +28,20 @@ public class UsuarioController {
     public ResponseEntity<Void> deletarUsuario(@RequestParam String email){
         service.deletarUsuario(email);
         return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping
+    public ResponseEntity<UsuarioResponse> atualizarUsuario(@RequestParam String email,@RequestBody UsuarioUpdateRequest request){
+        return ResponseEntity.ok().body(service.atualizarUsuario(email,request));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UsuarioResponse>> buscarUsuariosPorNome(@RequestParam String nome){
+        return ResponseEntity.ok().body(service.listarUsuariosPorNome(nome));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UsuarioResponse>> buscarTodosUsuarios(){
+        return ResponseEntity.ok().body(service.listarUsuarios());
     }
 }

@@ -8,6 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UsuarioMapper {
 
@@ -18,4 +20,6 @@ public interface UsuarioMapper {
 
     @Mapping(target = "id", ignore = true)
     void atualizarUsuarioEntity(UsuarioUpdateRequest request, @MappingTarget UsuarioEntity entity);
+
+    List<UsuarioResponse> paraListaUsuarioResponse(List<UsuarioEntity> entityList);
 }

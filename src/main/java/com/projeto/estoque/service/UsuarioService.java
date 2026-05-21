@@ -8,6 +8,8 @@ import com.projeto.estoque.model.UsuarioEntity;
 import com.projeto.estoque.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UsuarioService {
 
@@ -39,5 +41,13 @@ public class UsuarioService {
 
     public void deletarUsuario(String email) {
         repository.deleteByEmail(email);
+    }
+
+    public List<UsuarioResponse> listarUsuariosPorNome(String nome) {
+        return mapper.paraListaUsuarioResponse(repository.findByNomeContaining(nome));
+    }
+
+    public List<UsuarioResponse> listarUsuarios(){
+        return mapper.paraListaUsuarioResponse(repository.findAll());
     }
 }
