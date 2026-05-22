@@ -19,11 +19,6 @@ public class UsuarioController {
         this.service = service;
     }
 
-    @PostMapping
-    public ResponseEntity<UsuarioResponse> criarUsuario(@RequestBody UsuarioCreateRequest request){
-        return ResponseEntity.ok().body(service.criarUsuario(request));
-    }
-
     @DeleteMapping
     public ResponseEntity<Void> deletarUsuario(@RequestParam String email){
         service.deletarUsuario(email);

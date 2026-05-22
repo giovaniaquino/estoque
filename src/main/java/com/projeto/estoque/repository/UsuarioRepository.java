@@ -10,7 +10,9 @@ import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
 
-    Optional<UserDetails> findByEmail(String username);
+    Optional<UserDetails> findUserByEmail(String username);
+
+    Optional<UsuarioEntity> findByEmail(String email);
 
     @Transactional
     void deleteByEmail(String email);

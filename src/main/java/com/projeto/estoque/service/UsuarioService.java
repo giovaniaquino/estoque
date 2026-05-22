@@ -21,12 +21,6 @@ public class UsuarioService {
         this.mapper = mapper;
     }
 
-    public UsuarioResponse criarUsuario(UsuarioCreateRequest request) {
-        return mapper.paraUsuarioResponse(
-                repository.save(
-                        mapper.paraUsuarioEntity(request)));
-    }
-
     public UsuarioResponse atualizarUsuario(String email, UsuarioUpdateRequest request) {
         UsuarioEntity entity = repository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));

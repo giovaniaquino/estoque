@@ -22,9 +22,6 @@ public class UsuarioEntity implements UserDetails {
     private String email;
     @Column(nullable = false)
     private String senha;
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private CargoUsuario cargo;
 
     public UsuarioEntity() {
     }
@@ -37,12 +34,7 @@ public class UsuarioEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.cargo == CargoUsuario.ADMIN){
-            return List.of(
-                    new SimpleGrantedAuthority("ROLE_ADMIN"),
-                    new  SimpleGrantedAuthority("ROLE_USUARIO"));
-        }
-        else return List.of(new SimpleGrantedAuthority("ROLE_USUARIO"));
+        return List.of();
     }
 
     @Override
