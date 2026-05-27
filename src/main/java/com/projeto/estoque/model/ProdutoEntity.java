@@ -15,12 +15,6 @@ public class ProdutoEntity {
     private String nome;
     @Column(nullable = false)
     private String quantidade;
-    @Column(nullable = false, length = 20)
-    private String lote;
-    @Column(nullable = false)
-    private LocalDate fabricacao;
-    @Column(nullable = false)
-    private LocalDate validade;
 
     public ProdutoEntity() {
     }
@@ -28,9 +22,6 @@ public class ProdutoEntity {
     public ProdutoEntity(String nome, String quantidade, String lote, LocalDate fabricacao, LocalDate validade) {
         this.nome = nome;
         this.quantidade = quantidade;
-        this.lote = lote;
-        this.fabricacao = fabricacao;
-        this.validade = validade;
     }
 
     public Long getId() {
@@ -55,29 +46,5 @@ public class ProdutoEntity {
 
     public void setQuantidade(String quantidade) {
         this.quantidade = quantidade;
-    }
-
-    public String getLote() {
-        return lote;
-    }
-
-    public void setLote(String lote) {
-        this.lote = lote;
-    }
-
-    public LocalDate getFabricacao() {
-        return fabricacao;
-    }
-
-    public void setFabricacao(LocalDate fabricacao) {
-        this.fabricacao = fabricacao;
-    }
-
-    public LocalDate getValidade() {
-        return validade;
-    }
-
-    public void setValidade(LocalDate validade) {
-        this.validade = validade;
     }
 }
