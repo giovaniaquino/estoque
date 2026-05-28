@@ -18,7 +18,8 @@ public class LotesEntity {
     private LocalDate fabricacao;
     @Column(nullable = false)
     private LocalDate validade;
-    @Column(nullable = false, name = "id_produto")
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "id_produto")
     private int idProduto;
 
     public LotesEntity() {

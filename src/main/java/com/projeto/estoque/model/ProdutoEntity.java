@@ -1,8 +1,10 @@
 package com.projeto.estoque.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "produto")
@@ -15,6 +17,10 @@ public class ProdutoEntity {
     private String nome;
     @Column(nullable = false)
     private String quantidade;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "idProduto", fetch = FetchType.LAZY)
+    private List<LotesEntity> lotesEntityList;
 
     public ProdutoEntity() {
     }
@@ -46,5 +52,13 @@ public class ProdutoEntity {
 
     public void setQuantidade(String quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public List<LotesEntity> getLotesEntityList() {
+        return lotesEntityList;
+    }
+
+    public void setLotesEntityList(List<LotesEntity> lotesEntityList) {
+        this.lotesEntityList = lotesEntityList;
     }
 }
