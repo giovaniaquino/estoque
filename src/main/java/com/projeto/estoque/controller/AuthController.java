@@ -48,7 +48,7 @@ public class AuthController {
 
     @PostMapping("/registrar")
     public ResponseEntity<UsuarioResponse> register(@Valid @RequestBody UsuarioCreateRequest request){
-        if (repository.findByEmail(request.email()) == null) return ResponseEntity.badRequest().build();
+        if (repository.existsByEmail(request.email())) return ResponseEntity.badRequest().build();
 
         UsuarioEntity novoUsuario = new  UsuarioEntity();
         novoUsuario.setNome(request.nome());
