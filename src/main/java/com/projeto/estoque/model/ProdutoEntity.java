@@ -16,7 +16,7 @@ public class ProdutoEntity {
     @Column(nullable = false)
     private String nome;
     @Column(nullable = false)
-    private String quantidade;
+    private Integer quantidade;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "idProduto", fetch = FetchType.LAZY)
@@ -25,7 +25,7 @@ public class ProdutoEntity {
     public ProdutoEntity() {
     }
 
-    public ProdutoEntity(String nome, String quantidade, String lote, LocalDate fabricacao, LocalDate validade) {
+    public ProdutoEntity(String nome, Integer quantidade, String lote, LocalDate fabricacao, LocalDate validade) {
         this.nome = nome;
         this.quantidade = quantidade;
     }
@@ -46,11 +46,11 @@ public class ProdutoEntity {
         this.nome = nome;
     }
 
-    public String getQuantidade() {
+    public Integer getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(String quantidade) {
+    public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
     }
 
