@@ -1,19 +1,13 @@
 package com.projeto.estoque.controller;
 
-import com.projeto.estoque.config.TokenConfig;
 import com.projeto.estoque.dto.request.LoginRequest;
 import com.projeto.estoque.dto.request.UsuarioCreateRequest;
 import com.projeto.estoque.dto.response.LoginResponse;
 import com.projeto.estoque.dto.response.UsuarioResponse;
-import com.projeto.estoque.model.UsuarioEntity;
-import com.projeto.estoque.repository.UsuarioRepository;
+import com.projeto.estoque.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,40 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UsuarioRepository repository;
-    private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
-    private final TokenConfig  tokenConfig;
+    private final UsuarioService  service;
 
-    public AuthController(UsuarioRepository repository,  PasswordEncoder passwordEncoder,  AuthenticationManager authenticationManager,  TokenConfig tokenConfig) {
-        this.repository = repository;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
-        this.tokenConfig = tokenConfig;
+    public AuthController(UsuarioService service) {
+        this.service = service;
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request){
-
-        UsernamePasswordAuthenticationToken emailSenha = new UsernamePasswordAuthenticationToken(request.email(), request.senha());
-        Authentication authentication = authenticationManager.authenticate(emailSenha);
-
-        UsuarioEntity usuario = (UsuarioEntity) authentication.getPrincipal();
-        String token = tokenConfig.gerarToken(usuario);
-        return ResponseEntity.ok(new LoginResponse(token));
+        return ResponseEntity.ok().body(service.login(request));
     }
 
     @PostMapping("/registrar")
     public ResponseEntity<UsuarioResponse> register(@Valid @RequestBody UsuarioCreateRequest request){
-        if (repository.existsByEmail(request.email())) return ResponseEntity.badRequest().build();
-
-        UsuarioEntity novoUsuario = new  UsuarioEntity();
-        novoUsuario.setNome(request.nome());
-        novoUsuario.setEmail(request.email());
-        novoUsuario.setSenha(passwordEncoder.encode(request.senha()));
-        repository.save(novoUsuario);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                new UsuarioResponse(novoUsuario.getNome(), novoUsuario.getEmail()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.registrarUsuario(request));
     }
 }
