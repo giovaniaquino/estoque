@@ -14,6 +14,8 @@ public class LotesEntity {
     private Long id;
     @Column(unique = true, nullable = false, length = 20)
     private String lote;
+    @Column
+    private int quantidade;
     @Column(nullable = false)
     private LocalDate fabricacao;
     @Column(nullable = false)
@@ -25,9 +27,10 @@ public class LotesEntity {
     public LotesEntity() {
     }
 
-    public LotesEntity(Long id, String lote, LocalDate fabricacao, LocalDate validade, ProdutoEntity idProduto) {
+    public LotesEntity(Long id, String lote, int quantidade, LocalDate fabricacao, LocalDate validade, ProdutoEntity idProduto) {
         this.id = id;
         this.lote = lote;
+        this.quantidade = quantidade;
         this.fabricacao = fabricacao;
         this.validade = validade;
         this.idProduto = idProduto;
@@ -39,6 +42,14 @@ public class LotesEntity {
 
     public void setLote(String lote) {
         this.lote = lote;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 
     public LocalDate getFabricacao() {
