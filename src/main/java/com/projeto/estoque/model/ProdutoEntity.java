@@ -13,10 +13,10 @@ public class ProdutoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, length = 20)
+    private String codigo;
     @Column(nullable = false)
     private String nome;
-    @Column(nullable = false)
-    private Integer quantidade;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "idProduto", fetch = FetchType.LAZY)
@@ -25,9 +25,9 @@ public class ProdutoEntity {
     public ProdutoEntity() {
     }
 
-    public ProdutoEntity(String nome, Integer quantidade, String lote, LocalDate fabricacao, LocalDate validade) {
+    public ProdutoEntity(String codigo, String nome, Integer quantidade) {
+        this.codigo = codigo;
         this.nome = nome;
-        this.quantidade = quantidade;
     }
 
     public Long getId() {
@@ -38,20 +38,20 @@ public class ProdutoEntity {
         this.id = id;
     }
 
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public Integer getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
     }
 
     public List<LotesEntity> getLotesEntityList() {
