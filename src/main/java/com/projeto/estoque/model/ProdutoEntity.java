@@ -3,7 +3,6 @@ package com.projeto.estoque.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -13,7 +12,7 @@ public class ProdutoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 20, unique = true)
     private String codigo;
     @Column(nullable = false)
     private String nome;
