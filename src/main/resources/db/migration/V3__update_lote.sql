@@ -1,2 +1,2 @@
 ALTER TABLE lotes
-ADD quantidate INT;
+    ADD quantidade INT;
