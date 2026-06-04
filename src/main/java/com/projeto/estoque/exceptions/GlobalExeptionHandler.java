@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExeptionHandler {
 
-    // Usuário não encontrado
+    // Entidade não encontrada
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
     public ResponseEntity<ExeptionResponse> handleNaoEncontrado(EntidadeNaoEncontradaException ex){
         return ResponseEntity

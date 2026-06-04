@@ -4,6 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record ProdutoCreateRequest(
-        @NotBlank @Size String codigo,
+        @NotBlank @Size(max = 20) String codigo,
         @NotBlank String nome) {
 }
