@@ -16,6 +16,7 @@ public interface LotesMapper {
     @Mapping(target = "id", ignore = true)
     LotesEntity paraLotesEntity(LotesCreateRequest request);
 
+    @Mapping(target = "nomeProduto", source = "produto.nome")
     LotesResponse paraLotesResponse(LotesEntity entity);
 
     List<LotesResponse> paraListaLotesResponse(List<LotesEntity> entityList);

@@ -17,14 +17,13 @@ public class ProdutoEntity {
     @Column(nullable = false)
     private String nome;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "idProduto", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "produto", fetch = FetchType.LAZY)
     private List<LotesEntity> lotesEntityList;
 
     public ProdutoEntity() {
     }
 
-    public ProdutoEntity(String codigo, String nome, Integer quantidade) {
+    public ProdutoEntity(String codigo, String nome) {
         this.codigo = codigo;
         this.nome = nome;
     }

@@ -8,7 +8,7 @@ import com.projeto.estoque.dto.request.UsuarioUpdateRequest;
 import com.projeto.estoque.dto.response.LoginResponse;
 import com.projeto.estoque.dto.response.UsuarioResponse;
 import com.projeto.estoque.exceptions.EntidadeNaoEncontradaException;
-import com.projeto.estoque.exceptions.RegraDeNegocioExeption;
+import com.projeto.estoque.exceptions.RegraDeNegocioException;
 import com.projeto.estoque.model.UsuarioEntity;
 import com.projeto.estoque.repository.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -47,7 +47,7 @@ public class UsuarioService {
     }
 
     public UsuarioResponse registrarUsuario(@Valid UsuarioCreateRequest request){
-        if (repository.existsByEmail(request.email())) throw new RegraDeNegocioExeption("Email já está em uso");
+        if (repository.existsByEmail(request.email())) throw new RegraDeNegocioException("Email já está em uso");
 
         UsuarioEntity novoUsuario = new  UsuarioEntity();
         novoUsuario.setNome(request.nome());
@@ -67,7 +67,7 @@ public class UsuarioService {
             // Verifica se email já está cadastrado
             boolean emailExitente = repository.existsByEmail(request.email());
             if (emailExitente) {
-                throw new RegraDeNegocioExeption("Esse email já está cadastrado");
+                throw new RegraDeNegocioException("Esse email já está cadastrado");
             }
         }
 

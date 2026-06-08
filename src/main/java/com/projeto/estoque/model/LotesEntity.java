@@ -22,18 +22,18 @@ public class LotesEntity {
     private LocalDate validade;
     @ManyToOne
     @JoinColumn(nullable = false, name = "id_produto")
-    private ProdutoEntity idProduto;
+    private ProdutoEntity produto;
 
     public LotesEntity() {
     }
 
-    public LotesEntity(Long id, String lote, int quantidade, LocalDate fabricacao, LocalDate validade, ProdutoEntity idProduto) {
+    public LotesEntity(Long id, String lote, int quantidade, LocalDate fabricacao, LocalDate validade, ProdutoEntity produto) {
         this.id = id;
         this.lote = lote;
         this.quantidade = quantidade;
         this.fabricacao = fabricacao;
         this.validade = validade;
-        this.idProduto = idProduto;
+        this.produto = produto;
     }
 
     public String getLote() {
@@ -76,11 +76,11 @@ public class LotesEntity {
         this.id = id;
     }
 
-    public ProdutoEntity getIdProduto() {
-        return idProduto;
+    public ProdutoEntity getProduto() {
+        return produto;
     }
 
-    public void setIdProduto(ProdutoEntity idProduto) {
-        this.idProduto = idProduto;
+    public void setProduto(ProdutoEntity produto) {
+        this.produto = produto;
     }
 }

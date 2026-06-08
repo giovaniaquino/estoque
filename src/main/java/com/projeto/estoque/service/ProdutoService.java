@@ -5,7 +5,7 @@ import com.projeto.estoque.dto.request.ProdutoCreateRequest;
 import com.projeto.estoque.dto.request.ProdutoUpdateRequest;
 import com.projeto.estoque.dto.response.ProdutoResponse;
 import com.projeto.estoque.exceptions.EntidadeNaoEncontradaException;
-import com.projeto.estoque.exceptions.RegraDeNegocioExeption;
+import com.projeto.estoque.exceptions.RegraDeNegocioException;
 import com.projeto.estoque.model.ProdutoEntity;
 import com.projeto.estoque.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class ProdutoService {
             // Verifica se código já está cadastrado
             boolean codigoExiste = repository.existsByCodigo(request.codigo());
             if (codigoExiste) {
-                throw new RegraDeNegocioExeption("Esse código já está cadastrado em outro produto");
+                throw new RegraDeNegocioException("Esse código já está cadastrado em outro produto");
             }
         }
 
