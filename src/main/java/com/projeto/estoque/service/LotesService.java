@@ -4,9 +4,12 @@ import com.projeto.estoque.dto.mapper.LotesMapper;
 import com.projeto.estoque.dto.request.LotesCreateRequest;
 import com.projeto.estoque.dto.response.LotesResponse;
 import com.projeto.estoque.exceptions.EntidadeNaoEncontradaException;
-import com.projeto.estoque.exceptions.RegraDeNegocioExeption;
+import com.projeto.estoque.exceptions.RegraDeNegocioException;
+import com.projeto.estoque.model.LotesEntity;
+import com.projeto.estoque.model.ProdutoEntity;
 import com.projeto.estoque.repository.LotesRepository;
 import com.projeto.estoque.repository.ProdutoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,20 +27,24 @@ public class LotesService {
         this.produtoRepository = produtoRepository;
     }
 
+    @Transactional
     public LotesResponse criarLote(LotesCreateRequest request){
-        // Verificar se produto existe
-        if (!verificarProduto(request.codigoProduto())) throw new EntidadeNaoEncontradaException("Código de produto não existe");
-        // Verifica se datas de fabricação e validade estão corretas
-        if (request.fabricacao().isBefore(request.validade())) throw new RegraDeNegocioExeption("Validade mais recente que fabricação");
+        ProdutoEntity produto = produtoRepository.findByCodigo(request.codigoProduto())
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Código de produto não existe"));
 
-        return mapper.paraLotesResponse(repository.save(mapper.paraLotesEntity(request)));
+        // Verifica se validade está depois de fabricação
+        if (!request.fabricacao().isBefore(request.validade())) throw new RegraDeNegocioException("Validade deve ser depois da fabricação");
+
+        LotesEntity lote = mapper.paraLotesEntity(request);
+        lote.setProduto(produto);
+        return mapper.paraLotesResponse(repository.save(lote));
     }
 
     public List<LotesResponse> listarLotesDoProduto(String codigoProduto){
         // Verificar se produto existe
         if (!verificarProduto(codigoProduto)) throw new EntidadeNaoEncontradaException("Código de produto não existe");
 
-        return mapper.paraListaLotesResponse(repository.findByCodigo(codigoProduto));
+        return mapper.paraListaLotesResponse(repository.findByProdutoCodigo(codigoProduto));
     }
 
     private boolean verificarProduto(String codigoProduto){
