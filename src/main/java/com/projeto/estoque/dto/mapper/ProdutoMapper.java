@@ -18,6 +18,7 @@ public interface ProdutoMapper {
     @Mapping(target = "id", ignore = true)
     ProdutoEntity paraProdutoEntity(ProdutoCreateRequest request);
 
+    @Mapping(target = "quantidade", ignore = true)
     ProdutoResponse paraProdutoResponse(ProdutoEntity entity);
 
     @Mapping(target = "id", ignore = true)

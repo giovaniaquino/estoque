@@ -7,9 +7,11 @@ import com.projeto.estoque.dto.response.ProdutoResponse;
 import com.projeto.estoque.exceptions.EntidadeNaoEncontradaException;
 import com.projeto.estoque.exceptions.RegraDeNegocioException;
 import com.projeto.estoque.model.ProdutoEntity;
+import com.projeto.estoque.repository.LotesRepository;
 import com.projeto.estoque.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -17,14 +19,17 @@ public class ProdutoService {
 
     private final ProdutoRepository repository;
     private final ProdutoMapper mapper;
+    private final LotesRepository  lotesRepository;
 
-    public ProdutoService(ProdutoRepository repository, ProdutoMapper mapper) {
+    public ProdutoService(ProdutoRepository repository, ProdutoMapper mapper, LotesRepository lotesRepository) {
         this.repository = repository;
         this.mapper = mapper;
+        this.lotesRepository = lotesRepository;
     }
 
     public ProdutoResponse criarProduto(ProdutoCreateRequest request) {
-        return mapper.paraProdutoResponse(repository.save(mapper.paraProdutoEntity(request)));
+        ProdutoEntity saved = repository.save(mapper.paraProdutoEntity(request));
+        return toResponseComQuantidade(saved);
     }
 
     public ProdutoResponse atualizarProduto(String codigo, ProdutoUpdateRequest request) {
@@ -45,14 +50,24 @@ public class ProdutoService {
 
         ProdutoEntity produtoAtualizado = repository.save(entity);
 
-        return mapper.paraProdutoResponse(produtoAtualizado);
+        return toResponseComQuantidade(produtoAtualizado);
     }
 
     public List<ProdutoResponse> listarProdutoPorNome(String nome) {
-        return mapper.paraListaProdutoResponse(repository.findByNomeContaining(nome));
+        return repository.findByNomeContaining(nome).stream()
+                .map(this::toResponseComQuantidade)
+                .toList();
     }
 
     public List<ProdutoResponse> listarTodosProdutos() {
-        return mapper.paraListaProdutoResponse(repository.findAll());
+        return repository.findAll().stream()
+                .map(this::toResponseComQuantidade)
+                .toList();
+    }
+
+    private ProdutoResponse toResponseComQuantidade(ProdutoEntity entity) {
+        ProdutoResponse base = mapper.paraProdutoResponse(entity);
+        int quantidade = lotesRepository.sumQuantidadeNaoVencidosByProdutoId(entity.getId(), LocalDate.now());
+        return new ProdutoResponse(base.codigo(), base.nome(), quantidade);
     }
 }
