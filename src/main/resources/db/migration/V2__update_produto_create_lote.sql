@@ -1,7 +1,8 @@
-ALTER TABLE produto
-    DROP COLUMN lote,
-    DROP COLUMN fabricacao,
-    DROP COLUMN validade;
+ALTER TABLE produto DROP CONSTRAINT chk_validade_fabricacao;
+
+ALTER TABLE produto DROP COLUMN lote;
+ALTER TABLE produto DROP COLUMN fabricacao;
+ALTER TABLE produto DROP COLUMN validade;
 
 CREATE TABLE lotes(
     id_lote SERIAL PRIMARY KEY,
